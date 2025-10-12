@@ -41,6 +41,10 @@ android {
     buildFeatures {
         compose = true
     }
+    hilt {
+        //https://github.com/google/dagger/issues/3478
+        enableAggregatingTask = false
+    }
 }
 
 dependencies {
@@ -68,6 +72,8 @@ dependencies {
 
     //https://developer.android.com/develop/ui/compose/navigation?hl=de
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
