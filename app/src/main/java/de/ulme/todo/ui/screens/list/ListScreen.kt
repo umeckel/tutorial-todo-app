@@ -17,6 +17,9 @@ fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit
 ) {
     Scaffold(
+        topBar = {
+            ListAppBar()
+        },
         content = { it ->
             it.toString() // TODO: Remove
         },
