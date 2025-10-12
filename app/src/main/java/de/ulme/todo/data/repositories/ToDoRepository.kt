@@ -1,10 +1,12 @@
 package de.ulme.todo.data.repositories
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import de.ulme.todo.data.ToDoDao
 import de.ulme.todo.data.models.ToDoTask
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+@ViewModelScoped
 class ToDoRepository @Inject constructor(
     private val toDoDao: ToDoDao
 ) {
