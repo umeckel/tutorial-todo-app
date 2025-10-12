@@ -74,6 +74,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    // https://developer.android.com/jetpack/androidx/releases/compose-material3?hl=de#compose_material3_version_14_2
+    implementation(libs.androidx.compose.material.icons)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
