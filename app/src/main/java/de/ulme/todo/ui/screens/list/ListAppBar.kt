@@ -1,7 +1,12 @@
 package de.ulme.todo.ui.screens.list
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
@@ -11,7 +16,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -20,17 +27,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import de.ulme.todo.R
 import de.ulme.todo.components.PriorityItem
 import de.ulme.todo.data.models.Priority
 import de.ulme.todo.ui.theme.LARGE_PADDING
+import de.ulme.todo.ui.theme.SEARCH_BAR_HEIGHT
 import de.ulme.todo.ui.theme.Typography
 
 @Composable
 fun ListAppBar() {
-    DefaultListAppBar(onSearchClicked = {}, onSortClicked = {}, onDeleteClicked = {})
+//    DefaultListAppBar(onSearchClicked = {}, onSortClicked = {}, onDeleteClicked = {})
+    SearchAppBar(
+        text = "",
+        onTextChange = {},
+        onCloseClicked = {},
+        onSearchClicked = {},
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,6 +71,70 @@ fun DefaultListAppBar(
                 onDeleteClicked = onDeleteClicked
             )
         })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchAppBar(
+    text: String,
+    onTextChange: (String) -> Unit,
+    onCloseClicked: () -> Unit,
+    onSearchClicked: (String) -> Unit,
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(SEARCH_BAR_HEIGHT),
+        shadowElevation = 8.dp,
+    ) {
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = text,
+            onValueChange = { onTextChange(it) },
+            placeholder = {
+                Text(
+                    modifier = Modifier.alpha(0.5f),
+                    text = stringResource(R.string.search_placeholder),
+                )
+            },
+            textStyle = TextStyle(
+                fontSize = Typography.bodyMedium.fontSize,
+            ),
+            singleLine = true,
+            leadingIcon = {
+                IconButton(
+                    modifier = Modifier.alpha(0.38f),
+                    onClick = {}
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = stringResource(R.string.search_icon),
+//                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            },
+            trailingIcon = {
+                IconButton(
+                    onClick = { onCloseClicked() }) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.close_icon),
+//                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onSearchClicked(text)
+                }
+            ),
+        )
+
+    }
 }
 
 @Composable
@@ -149,6 +231,12 @@ fun DeleteAction(
 
         }
     }
+}
+
+@Composable
+@Preview
+private fun SearchAppBarPreview() {
+    SearchAppBar(text = "", onSearchClicked = {}, onTextChange = {}, onCloseClicked = {})
 }
 
 @Composable
