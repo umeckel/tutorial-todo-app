@@ -76,6 +76,7 @@ dependencies {
 
     // https://developer.android.com/jetpack/androidx/releases/compose-material3?hl=de#compose_material3_version_14_2
     implementation(libs.androidx.compose.material.icons)
+    implementation(libs.androidx.compose.material.icons.extended)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

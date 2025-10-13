@@ -2,4 +2,8 @@
     <string name="app_name">ToDoApp</string>
     <string name="add_button">Add Button</string>
     <string name="default_top_title">Tasks</string>
+    <string name="actions_search">Search Tasks</string>
+    <string name="actions_sort">Sort Tasks</string>
+    <string name="actions_delete">Delete Tasks</string>
+    <string name="delete_all">Delete All</string>
 </resources>
