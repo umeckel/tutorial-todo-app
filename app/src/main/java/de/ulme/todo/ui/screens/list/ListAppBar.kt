@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -83,7 +84,7 @@ fun DefaultListAppBar(
         title = { Text(stringResource(R.string.default_top_title)) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ),
         actions = {
             ListBarActions(
@@ -111,6 +112,12 @@ fun SearchAppBar(
     ) {
         TextField(
             modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            ),
             value = text,
             onValueChange = { onTextChange(it) },
             placeholder = {
@@ -125,16 +132,18 @@ fun SearchAppBar(
             singleLine = true,
             leadingIcon = {
                 IconButton(
-                    modifier = Modifier.alpha(0.38f), onClick = {}) {
+                    onClick = {}
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = stringResource(R.string.search_icon),
-//                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             },
             trailingIcon = {
                 IconButton(
+                    modifier = Modifier.alpha(0.5f),
                     onClick = {
                         if (text.isNotEmpty()) {
                             onTextChange("")
@@ -145,7 +154,7 @@ fun SearchAppBar(
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = stringResource(R.string.close_icon),
-//                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             },
