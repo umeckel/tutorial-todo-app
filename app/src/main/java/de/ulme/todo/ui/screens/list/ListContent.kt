@@ -30,18 +30,28 @@ fun ListContent(
     tasks: List<ToDoTask>,
     modifier: Modifier = Modifier,
 ) {
+    if (tasks.isEmpty()) {
+        EmptyContent()
+    } else {
+        DisplayTasks(modifier = modifier, tasks = tasks)
+    }
+}
+
+@Composable
+private fun DisplayTasks(
+    tasks: List<ToDoTask>, modifier: Modifier = Modifier
+) {
     LazyColumn(
         modifier = modifier
     ) {
         items(
             items = tasks, key = { it.id }) { task ->
             TaskItem(
-                toDoTask = task,
-                navigate = {}
-            )
+                toDoTask = task, navigate = {})
         }
     }
 }
+
 
 @Composable
 fun TaskItem(

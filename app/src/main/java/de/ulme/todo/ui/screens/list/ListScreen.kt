@@ -1,5 +1,6 @@
 package de.ulme.todo.ui.screens.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -13,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import de.ulme.todo.R
 import de.ulme.todo.ui.viewmodel.SharedViewModel
 import de.ulme.todo.util.SearchAppBarState
@@ -52,15 +54,23 @@ fun ListScreen(
 fun ListFab(
     onFabClicked: (taskId: Int) -> Unit
 ) {
-    FloatingActionButton(onClick = {
-        onFabClicked(-1)
-    }) {
+    FloatingActionButton(
+        onClick = { onFabClicked(-1) },
+        containerColor = MaterialTheme.colorScheme.tertiary,
+        contentColor = MaterialTheme.colorScheme.onTertiary,
+    ) {
         Icon(
             imageVector = Icons.Filled.Add,
             contentDescription = stringResource(
                 R.string.add_button
             ),
-            tint = MaterialTheme.colorScheme.primary,
+            tint = MaterialTheme.colorScheme.onTertiary,
         )
     }
+}
+
+@Composable
+@Preview
+fun ListFabPreview() {
+    ListFab({})
 }

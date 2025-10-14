@@ -9,4 +9,6 @@
     <string name="search_placeholder">Search</string>
     <string name="search_icon">Search Icon</string>
     <string name="close_icon">Close Icon</string>
+    <string name="no_tasks">No Tasks</string>
+    <string name="all_done">Everything is done</string>
 </resources>
