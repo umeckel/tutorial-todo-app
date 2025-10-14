@@ -39,17 +39,38 @@ import de.ulme.todo.data.models.Priority
 import de.ulme.todo.ui.theme.LARGE_PADDING
 import de.ulme.todo.ui.theme.SEARCH_BAR_HEIGHT
 import de.ulme.todo.ui.theme.Typography
+import de.ulme.todo.ui.viewmodel.SharedViewModel
+import de.ulme.todo.util.SearchAppBarState
 
 @Composable
-fun ListAppBar() {
-//    DefaultListAppBar(onSearchClicked = {}, onSortClicked = {}, onDeleteClicked = {})
-    SearchAppBar(
-        text = "",
-        onTextChange = {},
-        onCloseClicked = {},
-        onSearchClicked = {},
-    )
+fun ListAppBar(
+    sharedViewModel: SharedViewModel,
+    searchAppBarState: SearchAppBarState,
+    searchTextState: String,
+) {
+    when (searchAppBarState) {
+        SearchAppBarState.CLOSED -> {
+            DefaultListAppBar(onSearchClicked = {
+                sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
+            }, onSortClicked = {}, onDeleteClicked = {})
+        }
+
+        else -> {
+            SearchAppBar(
+                text = searchTextState,
+                onTextChange = { searchString ->
+                    sharedViewModel.searchTextState.value = searchString
+                },
+                onCloseClicked = {
+                    sharedViewModel.searchAppBarState.value = SearchAppBarState.CLOSED
+                    sharedViewModel.searchTextState.value = ""
+                },
+                onSearchClicked = {},
+            )
+        }
+    }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,13 +104,13 @@ fun SearchAppBar(
 ) {
     Surface(
         modifier = Modifier
+            .padding(top = SEARCH_BAR_HEIGHT) //FIXME: glitch into edge actually
             .fillMaxWidth()
             .height(SEARCH_BAR_HEIGHT),
         shadowElevation = 8.dp,
     ) {
         TextField(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             value = text,
             onValueChange = { onTextChange(it) },
             placeholder = {
@@ -104,9 +125,7 @@ fun SearchAppBar(
             singleLine = true,
             leadingIcon = {
                 IconButton(
-                    modifier = Modifier.alpha(0.38f),
-                    onClick = {}
-                ) {
+                    modifier = Modifier.alpha(0.38f), onClick = {}) {
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = stringResource(R.string.search_icon),
@@ -116,7 +135,13 @@ fun SearchAppBar(
             },
             trailingIcon = {
                 IconButton(
-                    onClick = { onCloseClicked() }) {
+                    onClick = {
+                        if (text.isNotEmpty()) {
+                            onTextChange("")
+                        } else {
+                            onCloseClicked()
+                        }
+                    }) {
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = stringResource(R.string.close_icon),
@@ -130,8 +155,7 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     onSearchClicked(text)
-                }
-            ),
+                }),
         )
 
     }
