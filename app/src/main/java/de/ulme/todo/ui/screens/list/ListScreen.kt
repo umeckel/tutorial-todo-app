@@ -1,6 +1,5 @@
 package de.ulme.todo.ui.screens.list
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -28,7 +27,7 @@ fun ListScreen(
         sharedViewModel.getAllTasks()
     }
 
-    val allTasks by sharedViewModel.allTasks.collectAsState()
+    val taskRequest by sharedViewModel.allTasks.collectAsState()
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
 
@@ -40,7 +39,7 @@ fun ListScreen(
         )
     }, content = { padding ->
         ListContent(
-            tasks = allTasks,
+            taskRequest = taskRequest,
             modifier = Modifier.padding(
                 top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()
             ),

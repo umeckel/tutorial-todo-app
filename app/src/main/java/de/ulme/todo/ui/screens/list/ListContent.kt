@@ -24,16 +24,19 @@ import de.ulme.todo.data.models.ToDoTask
 import de.ulme.todo.ui.theme.LARGE_PADDING
 import de.ulme.todo.ui.theme.PRIORITY_INDICATOR_SIZE
 import de.ulme.todo.ui.theme.TASK_ITEM_ELEVATION
+import de.ulme.todo.util.RequestState
 
 @Composable
 fun ListContent(
-    tasks: List<ToDoTask>,
+    taskRequest: RequestState<List<ToDoTask>>,
     modifier: Modifier = Modifier,
 ) {
-    if (tasks.isEmpty()) {
+    if (taskRequest is RequestState.Success) {
+    if (taskRequest.data.isEmpty()) {
         EmptyContent()
     } else {
-        DisplayTasks(modifier = modifier, tasks = tasks)
+        DisplayTasks(modifier = modifier, tasks = taskRequest.data)
+    }
     }
 }
 
