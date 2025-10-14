@@ -1,5 +1,6 @@
 package de.ulme.todo.ui.screens.list
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -8,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import de.ulme.todo.R
@@ -30,8 +32,12 @@ fun ListScreen(
             searchAppBarState = searchAppBarState,
             searchTextState = searchTextState,
         )
-    }, content = { it ->
-        it.toString() // TODO: Remove
+    }, content = { padding ->
+        ListContent(
+            modifier = Modifier.padding(
+                top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()
+            ),
+        )
     }, floatingActionButton = {
         ListFab(onFabClicked = navigateToTaskScreen)
     })
