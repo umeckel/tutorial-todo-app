@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,9 +27,20 @@ import de.ulme.todo.ui.theme.TASK_ITEM_ELEVATION
 
 @Composable
 fun ListContent(
+    tasks: List<ToDoTask>,
     modifier: Modifier = Modifier,
 ) {
-
+    LazyColumn(
+        modifier = modifier
+    ) {
+        items(
+            items = tasks, key = { it.id }) { task ->
+            TaskItem(
+                toDoTask = task,
+                navigate = {}
+            )
+        }
+    }
 }
 
 @Composable
@@ -37,7 +50,7 @@ fun TaskItem(
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.tertiaryContainer,
+        color = MaterialTheme.colorScheme.secondaryContainer,
         shape = RectangleShape,
         shadowElevation = TASK_ITEM_ELEVATION,
         onClick = {
@@ -56,7 +69,7 @@ fun TaskItem(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
                 Box(
                     modifier = Modifier
@@ -77,7 +90,7 @@ fun TaskItem(
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
         }
     }

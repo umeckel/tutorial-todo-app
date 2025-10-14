@@ -8,21 +8,25 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import de.ulme.todo.R
 import de.ulme.todo.ui.viewmodel.SharedViewModel
 import de.ulme.todo.util.SearchAppBarState
-import kotlin.Int
-import kotlin.Unit
 
 @Composable
 fun ListScreen(
     navigateToTaskScreen: (taskId: Int) -> Unit,
     sharedViewModel: SharedViewModel,
 ) {
+    LaunchedEffect(key1 = true) {
+        sharedViewModel.getAllTasks()
+    }
+
+    val allTasks by sharedViewModel.allTasks.collectAsState()
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
 
@@ -34,6 +38,7 @@ fun ListScreen(
         )
     }, content = { padding ->
         ListContent(
+            tasks = allTasks,
             modifier = Modifier.padding(
                 top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()
             ),
