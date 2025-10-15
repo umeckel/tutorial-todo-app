@@ -1,8 +1,11 @@
 package de.ulme.todo.ui.screens.list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -105,13 +108,14 @@ fun SearchAppBar(
 ) {
     Surface(
         modifier = Modifier
-            .padding(top = SEARCH_BAR_HEIGHT) //FIXME: glitch into edge actually
+            .background(MaterialTheme.colorScheme.primaryContainer)
+            .statusBarsPadding()
             .fillMaxWidth()
             .height(SEARCH_BAR_HEIGHT),
-        shadowElevation = 8.dp,
     ) {
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
