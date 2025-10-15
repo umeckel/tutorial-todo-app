@@ -11,4 +11,6 @@
     <string name="close_icon">Close Icon</string>
     <string name="no_tasks">No Tasks</string>
     <string name="all_done">Everything is done</string>
+    <string name="add_task">Add Task</string>
+    <string name="back_arrow">Back Arrow</string>
 </resources>

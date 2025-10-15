@@ -29,20 +29,27 @@ import de.ulme.todo.util.RequestState
 @Composable
 fun ListContent(
     taskRequest: RequestState<List<ToDoTask>>,
+    navigateToTaskScreen: (taskId: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (taskRequest is RequestState.Success) {
-    if (taskRequest.data.isEmpty()) {
-        EmptyContent()
-    } else {
-        DisplayTasks(modifier = modifier, tasks = taskRequest.data)
-    }
+        if (taskRequest.data.isEmpty()) {
+            EmptyContent()
+        } else {
+            DisplayTasks(
+                modifier = modifier,
+                navigateToTaskScreen = navigateToTaskScreen,
+                tasks = taskRequest.data
+            )
+        }
     }
 }
 
 @Composable
 private fun DisplayTasks(
-    tasks: List<ToDoTask>, modifier: Modifier = Modifier
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier
@@ -50,7 +57,7 @@ private fun DisplayTasks(
         items(
             items = tasks, key = { it.id }) { task ->
             TaskItem(
-                toDoTask = task, navigate = {})
+                toDoTask = task, navigate = { navigateToTaskScreen(task.id) })
         }
     }
 }

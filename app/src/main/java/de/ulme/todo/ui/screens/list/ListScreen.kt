@@ -40,6 +40,7 @@ fun ListScreen(
     }, content = { padding ->
         ListContent(
             taskRequest = taskRequest,
+            navigateToTaskScreen = navigateToTaskScreen,
             modifier = Modifier.padding(
                 top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()
             ),
