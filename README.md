@@ -9,7 +9,7 @@ This is my personal workspace for learning Android and Kotlin development. I am 
 
 ## Original Source Code
 
-The original source code for the course can be found on Stefan's GitHub repository: [https://github.com/stevdza-san/To-Do-Compose](httpss://github.com/stevdza-san/To-Do-Compose)
+The original source code for the course can be found on [Stefan's GitHub repository](https://github.com/stevdza-san/To-Do-Compose)
 
 ## About This Repository
 
