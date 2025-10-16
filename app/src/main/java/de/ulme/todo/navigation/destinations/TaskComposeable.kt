@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import de.ulme.todo.ui.screens.task.TaskScreen
 import de.ulme.todo.util.Action
 import de.ulme.todo.util.Constants.TASK_ARGUMENT_KEY
 import de.ulme.todo.util.Constants.TASK_SCREEN
@@ -17,6 +18,6 @@ fun NavGraphBuilder.taskComposable(
         })
     ) { navBackStackEntry ->
         val taskId = navBackStackEntry.arguments!!.getInt(TASK_ARGUMENT_KEY)
-
+        TaskScreen(taskId, navigateToListScreen = navigateToListScreen)
     }
 }
