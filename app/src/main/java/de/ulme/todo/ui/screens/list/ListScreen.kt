@@ -37,7 +37,9 @@ fun ListScreen(
             searchAppBarState = searchAppBarState,
             searchTextState = searchTextState,
         )
-    }, content = { padding ->
+    }, floatingActionButton = {
+        ListFab(onFabClicked = navigateToTaskScreen)
+    }) { padding ->
         ListContent(
             taskRequest = taskRequest,
             navigateToTaskScreen = navigateToTaskScreen,
@@ -45,9 +47,7 @@ fun ListScreen(
                 top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()
             ),
         )
-    }, floatingActionButton = {
-        ListFab(onFabClicked = navigateToTaskScreen)
-    })
+    }
 }
 
 @Composable
