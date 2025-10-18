@@ -1,5 +1,6 @@
 package de.ulme.todo.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -45,17 +46,23 @@ fun PriorityDropDown(
     val angle: Float by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f
     )
+    val borderColor by animateColorAsState(
+        targetValue = if (expanded) MaterialTheme.colorScheme.primaryContainer
+        else MaterialTheme.colorScheme.outline
+    )
+    var borderWidth by remember { mutableStateOf(1.dp) }
     Row(
         modifier = modifier
 //            .safeDrawingPadding() // needed for preview on emulator
             .fillMaxWidth()
             .height(PRIORITY_DROPDOWN_HEIGHT)
-            .clickable { expanded = !expanded }
+            .clickable {
+                expanded = !expanded
+                borderWidth = if (expanded) 2.dp else 1.dp
+            }
             .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.onSurface.copy(
-                    alpha = 0.5f
-                ),
+                width = borderWidth,
+                color = borderColor,
                 shape = MaterialTheme.shapes.extraSmall
             ),
         verticalAlignment = Alignment.CenterVertically
@@ -77,7 +84,10 @@ fun PriorityDropDown(
                 .alpha(0.5f)
                 .rotate(angle)
                 .weight(1.5f),
-            onClick = { expanded = true },
+            onClick = {
+                expanded = true
+                borderWidth = 2.dp
+            },
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowDropDown,
@@ -89,7 +99,10 @@ fun PriorityDropDown(
     DropdownMenu(
         expanded = expanded,
         modifier = Modifier.fillMaxWidth(fraction = 0.94f),
-        onDismissRequest = { expanded = false },
+        onDismissRequest = {
+            expanded = false
+            borderWidth = 1.dp
+        },
     ) {
         DropdownMenuItem(
             onClick = {

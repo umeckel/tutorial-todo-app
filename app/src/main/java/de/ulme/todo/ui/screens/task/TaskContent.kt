@@ -1,13 +1,11 @@
 package de.ulme.todo.ui.screens.task
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -16,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import de.ulme.todo.R
 import de.ulme.todo.components.PriorityDropDown
 import de.ulme.todo.data.models.Priority
@@ -49,6 +46,7 @@ fun TaskContent(
         )
         HorizontalDivider(
             modifier = Modifier.height(MEDIUM_PADDING),
+            color = MaterialTheme.colorScheme.onSecondary
         )
         PriorityDropDown(
             priority = priority,
