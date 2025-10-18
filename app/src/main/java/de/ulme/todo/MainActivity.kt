@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ToDoAppTheme {
                 navController = rememberNavController()
-                SetupNavigation(navController,sharedViewModel)
+                SetupNavigation(navController, sharedViewModel)
             }
         }
     }

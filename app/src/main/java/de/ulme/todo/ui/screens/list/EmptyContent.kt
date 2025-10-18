@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddReaction
-import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,10 +35,12 @@ fun EmptyContent() {
             contentDescription = stringResource(R.string.no_tasks),
             tint = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
         )
-        Text(text = stringResource(R.string.all_done),
+        Text(
+            text = stringResource(R.string.all_done),
             color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
-        fontWeight = FontWeight.Bold,
-            fontSize = MaterialTheme.typography.titleSmall.fontSize)
+            fontWeight = FontWeight.Bold,
+            fontSize = MaterialTheme.typography.titleSmall.fontSize
+        )
     }
 }
 

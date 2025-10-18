@@ -45,8 +45,8 @@ fun NewTaskAppBar(
 ) {
     TopAppBar(
         navigationIcon = {
-        BackAction(onBackClicked = navigateToListScreen)
-    },
+            BackAction(onBackClicked = navigateToListScreen)
+        },
         title = { Text(text = stringResource(R.string.add_task)) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -65,20 +65,20 @@ fun ExistingTaskAppBar(
 ) {
     TopAppBar(
         navigationIcon = {
-        CloseAction(onCloseClicked = navigateToListScreen)
-    }, title = {
-        Text(
-            text = selectedTask.title,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }, colors = TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-    ), actions = {
-        DeleteAction(navigateToListScreen)
-        UpdateAction(navigateToListScreen)
-    })
+            CloseAction(onCloseClicked = navigateToListScreen)
+        }, title = {
+            Text(
+                text = selectedTask.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }, colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        ), actions = {
+            DeleteAction(navigateToListScreen)
+            UpdateAction(navigateToListScreen)
+        })
 }
 
 @Composable

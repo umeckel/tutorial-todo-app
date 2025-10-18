@@ -15,7 +15,6 @@ import de.ulme.todo.ui.theme.LARGE_PADDING
 import de.ulme.todo.ui.theme.PRIORITY_INDICATOR_SIZE
 
 
-
 @Composable
 fun PriorityItem(priority: Priority) {
     Row(verticalAlignment = Alignment.CenterVertically) {
