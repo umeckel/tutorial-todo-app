@@ -24,20 +24,15 @@ import de.ulme.todo.util.Action
 
 @Composable
 fun TaskAppBar(
-    taskId: Int,
+    task: ToDoTask?,
     navigateToListScreen: (Action) -> Unit,
 ) {
-    if (taskId == -1) {
+    if (task == null) {
         NewTaskAppBar(navigateToListScreen = navigateToListScreen)
     } else {
-        val DUMMY = ToDoTask(
-            id = 0,
-            title = "Fancy Title",
-            description = "Lorem Ipsum dolor sit amet consectetur adipiscing elit",
-            priority = Priority.LOW
-        ) // TODO: RemoveMe
         ExistingTaskAppBar(
-            selectedTask = DUMMY, navigateToListScreen = navigateToListScreen
+            selectedTask = task,
+            navigateToListScreen = navigateToListScreen
         )
     }
 

@@ -30,7 +30,7 @@ interface ToDoDao {
      * @return a Flow emitting the selected ToDoTask.
      */
     @Query("SELECT * FROM $TABLE_TASK WHERE id=:taskId")
-    fun getSelectedTask(taskId: Int): Flow<ToDoTask>
+    fun getSelectedTask(taskId: Int): Flow<ToDoTask?>
 
     /**
      * Inserts a new task into the database.

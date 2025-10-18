@@ -24,10 +24,11 @@ fun SetupNavigation(
     ) {
         listComposable(
             navigateToTaskScreen = screens.task,
-            sharedViewModel = sharedViewModel
+            sharedViewModel = sharedViewModel,
         )
         taskComposable(
-            navigateToListScreen = screens.list
+            navigateToListScreen = screens.list,
+            sharedViewModel = sharedViewModel,
         )
     }
 }
