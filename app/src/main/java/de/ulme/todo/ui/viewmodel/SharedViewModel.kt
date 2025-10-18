@@ -1,10 +1,14 @@
 package de.ulme.todo.ui.viewmodel
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import de.ulme.todo.data.models.Priority
 import de.ulme.todo.data.models.ToDoTask
 import de.ulme.todo.data.repositories.ToDoRepository
 import de.ulme.todo.util.RequestState
@@ -19,13 +23,21 @@ class SharedViewModel @Inject constructor(
     private val repository: ToDoRepository
 ) : ViewModel() {
 
+
+    var id by mutableIntStateOf(0)
+        private set
+    var title by mutableStateOf("")
+        private set
+    var description by mutableStateOf("")
+        private set
+    var priority by mutableStateOf(Priority.NONE)
+        private set
     val searchAppBarState: MutableState<SearchAppBarState> = mutableStateOf(
         SearchAppBarState.CLOSED
     )
     val searchTextState: MutableState<String> = mutableStateOf("")
 
-    private val _allTasks =
-        MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
+    private val _allTasks = MutableStateFlow<RequestState<List<ToDoTask>>>(RequestState.Idle)
     val allTasks: StateFlow<RequestState<List<ToDoTask>>> = _allTasks
 
     fun getAllTasks() {
@@ -52,5 +64,33 @@ class SharedViewModel @Inject constructor(
                 _selectedTask.value = task
             }
         }
+    }
+
+
+    fun updateTaskFields(selectedTask: ToDoTask?) {
+        if (selectedTask != null) {
+            id = selectedTask.id
+            title = selectedTask.title
+            description = selectedTask.description
+            priority = selectedTask.priority
+        } else {
+            id = 0
+            title = ""
+            description = ""
+            priority = Priority.NONE
+        }
+    }
+
+    fun updateTitle(newTitle: String) {
+        title = newTitle
+
+    }
+
+    fun updateDescription(newDescription: String) {
+        description = newDescription
+    }
+
+    fun updatePriority(newPriority: Priority) {
+        priority = newPriority
     }
 }
