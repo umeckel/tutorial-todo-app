@@ -1,7 +1,9 @@
 package de.ulme.todo.ui.screens.task
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import de.ulme.todo.data.models.Priority
 import de.ulme.todo.data.models.ToDoTask
@@ -17,8 +19,18 @@ fun TaskScreen(
             TaskAppBar(
                 task, navigateToListScreen = navigateToListScreen
             )
-        }) { paddingValues ->
-        print(paddingValues)
+        }) { padding ->
+        TaskContent(
+            title = "The Title",
+            onTitleChange = {},
+            description = "The Description",
+            onDescriptionChanged = {},
+            priority = Priority.MEDIUM,
+            onPriorityChanged = {},
+            modifier = Modifier.padding(
+                top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()
+            ),
+        )
     }
 }
 
