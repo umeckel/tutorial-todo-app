@@ -16,4 +16,5 @@
     <string name="close_task">Close Task</string>
     <string name="delete_task">Delete Task</string>
     <string name="update_task">Update Task</string>
+    <string name="drop_down_indicator">Drop Down Indicator</string>
 </resources>
