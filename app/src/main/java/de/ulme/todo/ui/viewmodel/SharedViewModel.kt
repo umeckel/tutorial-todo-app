@@ -11,9 +11,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import de.ulme.todo.data.models.Priority
 import de.ulme.todo.data.models.ToDoTask
 import de.ulme.todo.data.repositories.ToDoRepository
+import de.ulme.todo.util.Action
 import de.ulme.todo.util.Constants.MAX_TITLE_LENGTH
 import de.ulme.todo.util.RequestState
 import de.ulme.todo.util.SearchAppBarState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +26,8 @@ class SharedViewModel @Inject constructor(
     private val repository: ToDoRepository
 ) : ViewModel() {
 
-
+    var action by mutableStateOf(Action.NO_ACTION)
+        private set
     var id by mutableIntStateOf(0)
         private set
     var title by mutableStateOf("")
@@ -67,6 +70,45 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    private fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val toDoTask = ToDoTask(
+                title = title,
+                description = description,
+                priority = priority,
+            )
+            repository.addTask(toDoTask = toDoTask)
+        }
+    }
+
+    fun handleDatabaseAction(action: Action) {
+        when (action) {
+            Action.ADD -> {
+                addTask()
+            }
+
+            Action.UPDATE -> {
+
+            }
+
+            Action.DELETE -> {
+
+            }
+
+            Action.DELETE_ALL -> {
+
+            }
+
+            Action.UNDO -> {
+
+            }
+
+            else -> {
+
+            }
+        }
+        this.action = Action.NO_ACTION
+    }
 
     fun updateTaskFields(selectedTask: ToDoTask?) {
         if (selectedTask != null) {
@@ -80,6 +122,10 @@ class SharedViewModel @Inject constructor(
             description = ""
             priority = Priority.NONE
         }
+    }
+
+    fun updateAction(newAction: Action) {
+        action = newAction
     }
 
     fun updateTitle(newTitle: String) {

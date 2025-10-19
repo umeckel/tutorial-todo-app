@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import de.ulme.todo.R
 import de.ulme.todo.ui.viewmodel.SharedViewModel
+import de.ulme.todo.util.Action
 import de.ulme.todo.util.SearchAppBarState
 
 @Composable
@@ -26,11 +27,12 @@ fun ListScreen(
     LaunchedEffect(key1 = true) {
         sharedViewModel.getAllTasks()
     }
-
+    val action: Action = sharedViewModel.action
     val taskRequest by sharedViewModel.allTasks.collectAsState()
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
 
+    sharedViewModel.handleDatabaseAction(action)
     Scaffold(topBar = {
         ListAppBar(
             sharedViewModel,
