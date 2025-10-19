@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import de.ulme.todo.data.models.Priority
 import de.ulme.todo.data.models.ToDoTask
 import de.ulme.todo.data.repositories.ToDoRepository
+import de.ulme.todo.util.Constants.MAX_TITLE_LENGTH
 import de.ulme.todo.util.RequestState
 import de.ulme.todo.util.SearchAppBarState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -82,8 +83,9 @@ class SharedViewModel @Inject constructor(
     }
 
     fun updateTitle(newTitle: String) {
-        title = newTitle
-
+        if (newTitle.length < MAX_TITLE_LENGTH) {
+            title = newTitle
+        }
     }
 
     fun updateDescription(newDescription: String) {
