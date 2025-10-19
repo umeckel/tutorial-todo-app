@@ -95,4 +95,8 @@ class SharedViewModel @Inject constructor(
     fun updatePriority(newPriority: Priority) {
         priority = newPriority
     }
+
+    fun validateFields(): Boolean {
+        return title.isNotEmpty() && description.isNotEmpty()
+    }
 }
