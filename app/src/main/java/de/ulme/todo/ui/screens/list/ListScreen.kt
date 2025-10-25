@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -41,20 +42,21 @@ fun ListScreen(
     DisplaySnackBar(
         snackBarHostState = snackBarHostState,
         handleDatabaseActions = { sharedViewModel.handleDatabaseAction(action) },
+        onUndoClicked = { sharedViewModel.updateAction(it) },
         taskTitle = sharedViewModel.title,
         action = action,
     )
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
-        ListAppBar(
-            sharedViewModel,
-            searchAppBarState = searchAppBarState,
-            searchTextState = searchTextState,
-        )
-    }, floatingActionButton = {
-        ListFab(onFabClicked = navigateToTaskScreen)
-    }) { padding ->
+            ListAppBar(
+                sharedViewModel,
+                searchAppBarState = searchAppBarState,
+                searchTextState = searchTextState,
+            )
+        }, floatingActionButton = {
+            ListFab(onFabClicked = navigateToTaskScreen)
+        }) { padding ->
         ListContent(
             taskRequest = taskRequest,
             navigateToTaskScreen = navigateToTaskScreen,
@@ -89,6 +91,7 @@ fun ListFab(
 fun DisplaySnackBar(
     snackBarHostState: SnackbarHostState,
     handleDatabaseActions: () -> Unit,
+    onUndoClicked: (Action) -> Unit,
     taskTitle: String,
     action: Action,
 ) {
@@ -100,15 +103,41 @@ fun DisplaySnackBar(
             scope.launch {
                 val snackBarResult = snackBarHostState.showSnackbar(
                     message = "${action.name}: $taskTitle",
-                    actionLabel = "Ok",
+                    actionLabel = setActionLabel(action),
+                )
+
+                undoDeletedTask(
+                    action = action,
+                    snackBarResult = snackBarResult,
+                    onUndoClicked = onUndoClicked,
                 )
             }
         }
     }
 }
 
+private fun setActionLabel(action: Action): String {
+    return if (action == Action.DELETE) {
+        "UNDO"
+    } else {
+        "OK"
+    }
+}
+
+private fun undoDeletedTask(
+    action: Action,
+    snackBarResult: SnackbarResult,
+    onUndoClicked: (Action) -> Unit,
+) {
+    if (snackBarResult == SnackbarResult.ActionPerformed && action == Action.DELETE) {
+        onUndoClicked(Action.UNDO)
+    }
+}
+
 @Composable
 @Preview
 fun ListFabPreview() {
-    ListFab({})
+    ListFab(
+        onFabClicked = {},
+    )
 }
