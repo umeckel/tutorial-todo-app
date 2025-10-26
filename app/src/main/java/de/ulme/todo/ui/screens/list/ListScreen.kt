@@ -35,6 +35,7 @@ fun ListScreen(
     }
     val action: Action = sharedViewModel.action
     val taskRequest by sharedViewModel.allTasks.collectAsState()
+    val searchRequest by sharedViewModel.searchTasks.collectAsState()
     val searchAppBarState: SearchAppBarState by sharedViewModel.searchAppBarState
     val searchTextState: String by sharedViewModel.searchTextState
 
@@ -58,7 +59,9 @@ fun ListScreen(
             ListFab(onFabClicked = navigateToTaskScreen)
         }) { padding ->
         ListContent(
-            taskRequest = taskRequest,
+            allTasks = taskRequest,
+            searchTasks = searchRequest,
+            searchAppBarState = searchAppBarState,
             navigateToTaskScreen = navigateToTaskScreen,
             modifier = Modifier.padding(
                 top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()

@@ -25,23 +25,49 @@ import de.ulme.todo.ui.theme.LARGE_PADDING
 import de.ulme.todo.ui.theme.PRIORITY_INDICATOR_SIZE
 import de.ulme.todo.ui.theme.TASK_ITEM_ELEVATION
 import de.ulme.todo.util.RequestState
+import de.ulme.todo.util.SearchAppBarState
 
 @Composable
 fun ListContent(
-    taskRequest: RequestState<List<ToDoTask>>,
+    allTasks: RequestState<List<ToDoTask>>,
+    searchTasks: RequestState<List<ToDoTask>>,
+    searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (taskRequest is RequestState.Success) {
-        if (taskRequest.data.isEmpty()) {
-            EmptyContent()
-        } else {
-            DisplayTasks(
-                modifier = modifier,
+    val searchTriggered = searchAppBarState == SearchAppBarState.TRIGGERED
+    val searchIsFinished = searchTasks is RequestState.Success
+    if (searchTriggered && searchIsFinished) {
+        HandleListContent(
+            tasks = searchTasks.data,
+            navigateToTaskScreen = navigateToTaskScreen,
+            modifier = modifier,
+        )
+    } else {
+        if (allTasks is RequestState.Success) {
+            HandleListContent(
+                tasks = allTasks.data,
                 navigateToTaskScreen = navigateToTaskScreen,
-                tasks = taskRequest.data
+                modifier = modifier,
             )
         }
+    }
+}
+
+@Composable
+fun HandleListContent(
+    tasks: List<ToDoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    if (tasks.isEmpty()) {
+        EmptyContent()
+    } else {
+        DisplayTasks(
+            modifier = modifier,
+            navigateToTaskScreen = navigateToTaskScreen,
+            tasks = tasks
+        )
     }
 }
 
