@@ -24,4 +24,6 @@
     <string name="dismiss">Dismiss</string>
     <string name="delete_task_title">Remove task \'%1$s\'?</string>
     <string name="delete_task_text">Are you sure you want to remove task \'%1$s\'?</string>
+    <string name="delete_all_title">Remove all tasks?</string>
+    <string name="delete_all_text">Are you sure you want to remove all task? There is no going back after this action.</string>
 </resources>
