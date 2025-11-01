@@ -43,6 +43,7 @@ import de.ulme.todo.ui.theme.LARGE_PADDING
 import de.ulme.todo.ui.theme.SEARCH_BAR_HEIGHT
 import de.ulme.todo.ui.theme.Typography
 import de.ulme.todo.ui.viewmodel.SharedViewModel
+import de.ulme.todo.util.Action
 import de.ulme.todo.util.SearchAppBarState
 
 @Composable
@@ -53,9 +54,14 @@ fun ListAppBar(
 ) {
     when (searchAppBarState) {
         SearchAppBarState.CLOSED -> {
-            DefaultListAppBar(onSearchClicked = {
-                sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
-            }, onSortClicked = {}, onDeleteClicked = {})
+            DefaultListAppBar(
+                onSearchClicked = {
+                    sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
+                },
+                onSortClicked = {},
+                onDeleteAllClicked = {
+                    sharedViewModel.updateAction(Action.DELETE_ALL)
+                })
         }
 
         else -> {
@@ -82,7 +88,7 @@ fun ListAppBar(
 fun DefaultListAppBar(
     onSearchClicked: () -> Unit,
     onSortClicked: (Priority) -> Unit,
-    onDeleteClicked: () -> Unit,
+    onDeleteAllClicked: () -> Unit,
 ) {
     TopAppBar(
         title = { Text(stringResource(R.string.default_top_title)) },
@@ -94,7 +100,7 @@ fun DefaultListAppBar(
             ListBarActions(
                 onSearchClicked = onSearchClicked,
                 onSortClicked = onSortClicked,
-                onDeleteClicked = onDeleteClicked
+                onDeleteClicked = onDeleteAllClicked
             )
         })
 }
@@ -282,5 +288,5 @@ private fun SearchAppBarPreview() {
 @Composable
 @Preview
 private fun DefaultListAppBarPreview() {
-    DefaultListAppBar(onSearchClicked = {}, onSortClicked = {}, onDeleteClicked = {})
+    DefaultListAppBar(onSearchClicked = {}, onSortClicked = {}, onDeleteAllClicked = {})
 }
