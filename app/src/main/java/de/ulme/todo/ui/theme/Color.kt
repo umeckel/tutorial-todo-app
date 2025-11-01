@@ -18,3 +18,5 @@ val LowPriorityColor = Color(0xFF00C980)
 val MediumPriorityColor = Color(0xFFFFC114)
 val HighPriorityColor = Color(0xFFFF4646)
 val NonePriorityColor = MediumGray
+
+val SwipeDeleteColor = Color(0xFFFF4646)

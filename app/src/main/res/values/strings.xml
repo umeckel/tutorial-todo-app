@@ -16,6 +16,7 @@
     <string name="back_arrow">Back Arrow</string>
     <string name="close_task">Close Task</string>
     <string name="delete_task">Delete Task</string>
+    <string name="delete_icon">Delete Icon</string>
     <string name="update_task">Update Task</string>
     <string name="drop_down_indicator">Drop Down Indicator</string>
     <string name="title">Title</string>

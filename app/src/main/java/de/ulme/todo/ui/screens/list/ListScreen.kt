@@ -70,6 +70,10 @@ fun ListScreen(
             sortState = sortState,
             searchAppBarState = searchAppBarState,
             navigateToTaskScreen = navigateToTaskScreen,
+            onSwipeToDelete = { action, task ->
+                sharedViewModel.updateAction(action)
+                sharedViewModel.updateTaskFields(selectedTask = task)
+            },
             modifier = Modifier.padding(
                 top = padding.calculateTopPadding(), bottom = padding.calculateBottomPadding()
             ),
