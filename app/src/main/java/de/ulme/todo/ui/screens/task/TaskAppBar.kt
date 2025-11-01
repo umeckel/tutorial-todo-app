@@ -13,10 +13,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import de.ulme.todo.R
+import de.ulme.todo.components.DisplayAlertDialog
 import de.ulme.todo.data.models.Priority
 import de.ulme.todo.data.models.ToDoTask
 import de.ulme.todo.util.Action
@@ -76,9 +81,33 @@ fun ExistingTaskAppBar(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ), actions = {
-            DeleteAction(navigateToListScreen)
-            UpdateAction(navigateToListScreen)
+            ExistingTaskAppBarActions(
+                selectedTask = selectedTask,
+                navigateToListScreen = navigateToListScreen
+            )
         })
+}
+
+@Composable
+fun ExistingTaskAppBarActions(
+    selectedTask: ToDoTask,
+    navigateToListScreen: (Action) -> Unit,
+) {
+    var openDialog by remember { mutableStateOf(false) }
+    DisplayAlertDialog(
+        title = stringResource(R.string.delete_task_title, selectedTask.title),
+        message = stringResource(R.string.delete_task_text, selectedTask.title),
+        openDialog = openDialog,
+        closeDialog = { openDialog = false },
+        onYesClicked = {
+            navigateToListScreen(Action.DELETE)
+        }
+    )
+
+    DeleteAction(onDeleteClicked = {
+        openDialog = true
+    })
+    UpdateAction(navigateToListScreen)
 }
 
 @Composable
@@ -122,9 +151,9 @@ fun CloseAction(
 
 @Composable
 fun DeleteAction(
-    onDeleteClicked: (Action) -> Unit
+    onDeleteClicked: () -> Unit
 ) {
-    IconButton(onClick = { onDeleteClicked(Action.DELETE) }) {
+    IconButton(onClick = { onDeleteClicked() }) {
         Icon(
             imageVector = Icons.Filled.Delete,
             contentDescription = stringResource(R.string.delete_task),
