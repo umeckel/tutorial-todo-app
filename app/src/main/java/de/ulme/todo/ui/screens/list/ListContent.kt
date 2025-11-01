@@ -31,27 +31,66 @@ import de.ulme.todo.util.SearchAppBarState
 fun ListContent(
     allTasks: RequestState<List<ToDoTask>>,
     searchTasks: RequestState<List<ToDoTask>>,
+    lowPriorityTasks: List<ToDoTask>,
+    highPriorityTasks: List<ToDoTask>,
+    sortState: RequestState<Priority>,
     searchAppBarState: SearchAppBarState,
     navigateToTaskScreen: (taskId: Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val searchTriggered = searchAppBarState == SearchAppBarState.TRIGGERED
     val searchIsFinished = searchTasks is RequestState.Success
-    if (searchTriggered && searchIsFinished) {
-        HandleListContent(
-            tasks = searchTasks.data,
-            navigateToTaskScreen = navigateToTaskScreen,
-            modifier = modifier,
-        )
-    } else {
-        if (allTasks is RequestState.Success) {
-            HandleListContent(
-                tasks = allTasks.data,
-                navigateToTaskScreen = navigateToTaskScreen,
-                modifier = modifier,
-            )
+    if (sortState is RequestState.Success) {
+        when {
+            searchTriggered -> {
+                if (searchIsFinished) {
+                    HandleListContent(
+                        tasks = searchTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen,
+                        modifier = modifier,
+                    )
+                }
+            }
+            sortState.data == Priority.NONE -> {
+                if (allTasks is RequestState.Success) {
+                    HandleListContent(
+                        tasks = allTasks.data,
+                        navigateToTaskScreen = navigateToTaskScreen,
+                        modifier = modifier,
+                    )
+                }
+            }
+            sortState.data == Priority.LOW -> {
+                HandleListContent(
+                    tasks = lowPriorityTasks,
+                    navigateToTaskScreen = navigateToTaskScreen,
+                    modifier = modifier,
+                )
+            }
+            sortState.data == Priority.HIGH -> {
+                HandleListContent(
+                    tasks = highPriorityTasks,
+                    navigateToTaskScreen = navigateToTaskScreen,
+                    modifier = modifier,
+                )
+            }
         }
     }
+//    if (searchTriggered && searchIsFinished) {
+//        HandleListContent(
+//            tasks = searchTasks.data,
+//            navigateToTaskScreen = navigateToTaskScreen,
+//            modifier = modifier,
+//        )
+//    } else {
+//        if (allTasks is RequestState.Success) {
+//            HandleListContent(
+//                tasks = allTasks.data,
+//                navigateToTaskScreen = navigateToTaskScreen,
+//                modifier = modifier,
+//            )
+//        }
+//    }
 }
 
 @Composable

@@ -18,7 +18,10 @@ import de.ulme.todo.util.RequestState
 import de.ulme.todo.util.SearchAppBarState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,6 +63,7 @@ class SharedViewModel @Inject constructor(
             _allTasks.value = RequestState.Error(e)
         }
     }
+
     fun searchDatabase(searchQuery: String) {
         _searchTasks.value = RequestState.Loading
         try {
@@ -74,6 +78,44 @@ class SharedViewModel @Inject constructor(
         }
         searchAppBarState.value = SearchAppBarState.TRIGGERED
     }
+
+    fun persistSortState(priority: Priority) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStore.persistSortState(priority = priority)
+        }
+    }
+
+    private val _sortState = MutableStateFlow<RequestState<Priority>>(RequestState.Idle)
+    val sortState: MutableStateFlow<RequestState<Priority>> = _sortState
+
+    fun readSortState() {
+        _sortState.value = RequestState.Loading
+        try {
+            viewModelScope.launch {
+                dataStore.readSortState
+                    .map { priorityString ->
+                        Priority.valueOf(priorityString)
+                    }
+                    .collect { sortState ->
+                        _sortState.value = RequestState.Success(sortState)
+                    }
+            }
+        } catch (e: Exception) {
+            _sortState.value = RequestState.Error(e)
+        }
+    }
+    val lowPriorityTasks: StateFlow<List<ToDoTask>> =
+        repository.sortByLowPriority.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
+    val highPriorityTasks: StateFlow<List<ToDoTask>> =
+        repository.sortByHighPriority.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            emptyList()
+        )
 
     private val _selectedTask: MutableStateFlow<ToDoTask?> = MutableStateFlow(null)
     val selectedTask: StateFlow<ToDoTask?> = _selectedTask
@@ -99,6 +141,7 @@ class SharedViewModel @Inject constructor(
         }
         searchAppBarState.value = SearchAppBarState.CLOSED
     }
+
     private fun updateTask() {
         viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTask(
@@ -110,6 +153,7 @@ class SharedViewModel @Inject constructor(
             repository.updateTask(toDoTask = toDoTask)
         }
     }
+
     private fun deleteTask() {
         viewModelScope.launch(Dispatchers.IO) {
             val toDoTask = ToDoTask(
@@ -127,6 +171,7 @@ class SharedViewModel @Inject constructor(
             repository.deleteAllTask()
         }
     }
+
     fun handleDatabaseAction(action: Action) {
         when (action) {
             Action.ADD -> {
